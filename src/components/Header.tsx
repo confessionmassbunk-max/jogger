@@ -1,0 +1,52 @@
+import React, { useState, useEffect } from 'react';
+import { ShoppingBag, Menu } from 'lucide-react';
+import { motion, useScroll, useMotionValueEvent } from 'motion/react';
+
+export const Header: React.FC<{ setCartOpen?: (b: boolean) => void }> = ({ setCartOpen }) => {
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() || 0;
+    if (latest > previous && latest > 150) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+    
+    setIsScrolled(latest > 50);
+  });
+
+  return (
+    <motion.header
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      animate={hidden ? "hidden" : "visible"}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className={`fixed top-0 left-0 w-full z-50 transition-colors duration-300 ${
+        isScrolled ? 'bg-primary/80 backdrop-blur-md border-b border-white/5' : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-[1440px] mx-auto px-6 md:px-12 h-24 flex items-center justify-between">
+        <button className="magnetic-interactive p-2 -ml-2 text-secondary/80 hover:text-secondary transition-colors">
+          <Menu strokeWidth={1.5} size={24} />
+        </button>
+        
+        <div className="text-xl md:text-2xl font-medium tracking-tight uppercase magnetic-interactive cursor-pointer select-none">
+          Underthere<span className="text-secondary/50">.</span>
+        </div>
+        
+        <button 
+          onClick={() => setCartOpen?.(true)}
+          className="magnetic-interactive p-2 -mr-2 text-secondary/80 hover:text-secondary transition-colors relative"
+        >
+          <ShoppingBag strokeWidth={1.5} size={24} />
+          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full" />
+        </button>
+      </div>
+    </motion.header>
+  );
+};
