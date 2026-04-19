@@ -1,15 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { SmoothScroll } from './components/SmoothScroll';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Collection } from './components/Collection';
-import { AppleScroll } from './components/AppleScroll';
-import { Features } from './components/Features';
-import { Lookbook } from './components/Lookbook';
-import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 
 export default function App() {
+  const [category, setCategory] = useState<'All' | 'Sweatpants' | 'Shorts'>('All');
+
   return (
     <shopify-store
       store-domain="laze-lab.myshopify.com"
@@ -18,22 +16,70 @@ export default function App() {
       language="en"
     >
       <shopify-cart id="cart"></shopify-cart>
+      
+      {/* Product Modal */}
+      <dialog id="product-modal" className="product-modal fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[24px] shadow-2xl border-0 p-0 m-0 w-[90%] max-w-4xl backdrop:bg-black/50 overflow-hidden bg-[#0A0A0A] text-[#F5F5F5]">
+        <shopify-context id="product-modal-context" type="product" wait-for-update>
+          <template dangerouslySetInnerHTML={{ __html: `
+            <div class="product-modal__container relative max-h-[90vh] overflow-y-auto">
+              <div class="sticky top-0 right-0 flex justify-end p-4 z-50">
+                <button onclick="document.getElementById('product-modal').close();" class="text-white/50 hover:text-white bg-black/80 backdrop-blur rounded-full w-10 h-10 flex items-center justify-center border border-white/10 transition-colors cursor-pointer">
+                  ✕
+                </button>
+              </div>
+              <div class="px-6 pb-10 md:px-10 flex flex-col md:flex-row gap-8">
+                <div class="w-full md:w-1/2">
+                   <shopify-media width="600" layout="fullWidth" query="product.selectedOrFirstAvailableVariant.image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;"></shopify-media>
+                </div>
+                <div class="w-full md:w-1/2 flex flex-col justify-center">
+                   <h1 class="text-3xl md:text-4xl font-light uppercase tracking-tight mb-2"><shopify-data query="product.title"></shopify-data></h1>
+                   <div class="text-xl text-white/50 mb-8"><shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money></div>
+                   
+                   <div class="mb-10 w-full">
+                     <shopify-variant-selector></shopify-variant-selector>
+                   </div>
+                   
+                   <div class="flex flex-col gap-3">
+                     <button onclick="const cart = document.getElementById('cart'); cart.addLine(event); document.getElementById('product-modal').close(); cart.showModal();" class="w-full py-4 bg-white text-black uppercase tracking-widest text-sm font-semibold hover:opacity-90 transition-opacity rounded-full cursor-pointer">
+                       Add to Cart
+                     </button>
+                     <button onclick="document.querySelector('shopify-store').buyNow(event)" class="w-full py-4 border border-white/20 text-white uppercase tracking-widest text-sm font-semibold hover:bg-white/5 transition-colors rounded-full cursor-pointer">
+                       Buy Now
+                     </button>
+                   </div>
+                   
+                   <div class="mt-8 text-white/50 text-sm font-light leading-relaxed">
+                     <shopify-data query="product.description"></shopify-data>
+                   </div>
+                </div>
+              </div>
+            </div>
+          `}} />
+          <div shopify-loading-placeholder={true as any} className="w-full h-96 flex items-center justify-center text-white/30 tracking-widest uppercase text-sm">
+            Loading...
+          </div>
+        </shopify-context>
+      </dialog>
+
       <SmoothScroll>
         <div className="noise-overlay" />
         
-        <Header />
+        <Header category={category} setCategory={setCategory} />
 
         <main className="relative z-0">
           <Hero />
-          <Collection />
-          <AppleScroll />
-          <Features />
-          <Lookbook />
-          <Testimonials />
+          <Collection category={category} />
         </main>
 
         <Footer />
       </SmoothScroll>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        shopify-variant-selector::part(form) { display: flex; flex-direction: column; gap: 20px; }
+        shopify-variant-selector::part(label) { display: block; text-transform: uppercase; font-size: 10px; letter-spacing: 0.15em; color: rgba(255,255,255,0.4); margin-bottom: 8px; }
+        shopify-variant-selector::part(select) { width: 100%; background: transparent; color: white; border: 1px solid rgba(255,255,255,0.2); padding: 14px 16px; border-radius: 8px; font-size: 14px; outline: none; appearance: none; }
+        dialog::backdrop { background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(12px); }
+      `}} />
     </shopify-store>
   );
 }

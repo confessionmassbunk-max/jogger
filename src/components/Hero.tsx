@@ -60,9 +60,9 @@ export const Hero: React.FC = () => {
              transition={{ duration: 0.8, delay: 0.8 }}
           >
             <Magnetic amount={0.2}>
-              <button onClick={() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })} className="magnetic-interactive group relative overflow-hidden rounded-full border border-secondary/30 bg-transparent px-8 py-4 transition-colors hover:border-secondary">
+              <button onClick={() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })} className="magnetic-interactive group relative overflow-hidden rounded-full border border-secondary/30 bg-transparent px-8 py-4 transition-colors hover:border-secondary cursor-pointer">
                 <span className="relative z-10 text-sm font-medium uppercase tracking-widest text-secondary mix-blend-difference">
-                  Explore Collection
+                  Shop Now
                 </span>
                 <div className="absolute inset-0 z-0 h-full w-full translate-y-full rounded-full bg-secondary transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] group-hover:translate-y-0" />
               </button>
