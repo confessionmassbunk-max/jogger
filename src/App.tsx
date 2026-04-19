@@ -71,8 +71,8 @@ export default function App() {
                 </div>
               </div>
             `}} />
-            <div shopify-loading-placeholder={true as any} className="w-full h-96 flex items-center justify-center text-white/30 tracking-widest uppercase text-sm">
-              Loading...
+            <div shopify-loading-placeholder={true as any} className="w-full h-[60vh] md:h-[80vh] flex items-center justify-center">
+               <div className="w-12 h-12 border-2 border-white/10 border-t-white/50 rounded-full animate-spin"></div>
             </div>
           </shopify-context>
         )}
