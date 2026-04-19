@@ -22,7 +22,7 @@ const features = [
 
 export const Features: React.FC = () => {
   return (
-    <section className="py-32 md:py-48 max-w-[1440px] mx-auto px-6 md:px-12 bg-primary">
+    <section id="about" className="py-32 md:py-48 max-w-[1440px] mx-auto px-6 md:px-12 bg-primary">
       <div className="mb-24 md:mb-32 flex flex-col items-center text-center">
         <span className="text-secondary/50 uppercase tracking-[0.2em] mb-4 text-xs font-semibold">The Anatomy</span>
         <h2 className="text-4xl md:text-6xl font-light tracking-tighter uppercase text-center text-balance max-w-3xl">Why Laze Labs.</h2>

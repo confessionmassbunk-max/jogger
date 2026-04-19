@@ -3,7 +3,7 @@ import { ShoppingBag, Menu } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent } from 'motion/react';
 import { BrandLogo } from './BrandLogo';
 
-export const Header: React.FC<{ setCartOpen?: (b: boolean) => void }> = ({ setCartOpen }) => {
+export const Header: React.FC<{ setCartOpen?: (b: boolean) => void, cartCount?: number }> = ({ setCartOpen, cartCount = 0 }) => {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,7 +32,7 @@ export const Header: React.FC<{ setCartOpen?: (b: boolean) => void }> = ({ setCa
       }`}
     >
       <div className="max-w-[1440px] mx-auto px-6 md:px-12 h-24 flex items-center justify-between">
-        <button className="magnetic-interactive p-2 -ml-2 text-secondary/80 hover:text-secondary transition-colors">
+        <button onClick={() => alert('Menu opened!')} className="magnetic-interactive p-2 -ml-2 text-secondary/80 hover:text-secondary transition-colors">
           <Menu strokeWidth={1.5} size={24} />
         </button>
         
@@ -48,7 +48,11 @@ export const Header: React.FC<{ setCartOpen?: (b: boolean) => void }> = ({ setCa
           className="magnetic-interactive p-2 -mr-2 text-secondary/80 hover:text-secondary transition-colors relative"
         >
           <ShoppingBag strokeWidth={1.5} size={24} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-secondary rounded-full" />
+          {cartCount > 0 && (
+            <span className="absolute top-1 right-1 w-4 h-4 bg-secondary rounded-full flex items-center justify-center text-[10px] text-primary font-bold">
+              {cartCount}
+            </span>
+          )}
         </button>
       </div>
     </motion.header>

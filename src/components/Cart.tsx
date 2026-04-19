@@ -5,9 +5,10 @@ import { X, ArrowRight } from 'lucide-react';
 interface CartProps {
   isOpen: boolean;
   setIsOpen: (b: boolean) => void;
+  cartCount?: number;
 }
 
-export const Cart: React.FC<CartProps> = ({ isOpen, setIsOpen }) => {
+export const Cart: React.FC<CartProps> = ({ isOpen, setIsOpen, cartCount = 0 }) => {
   return (
     <AnimatePresence>
       {isOpen && (
@@ -27,7 +28,7 @@ export const Cart: React.FC<CartProps> = ({ isOpen, setIsOpen }) => {
             className="fixed top-0 right-0 h-full w-full md:w-[480px] bg-primary border-l border-white/10 z-[100] flex flex-col"
           >
             <div className="p-6 md:p-8 flex justify-between items-center border-b border-white/10">
-              <h2 className="text-xl uppercase tracking-widest font-medium">Your Cart (0)</h2>
+              <h2 className="text-xl uppercase tracking-widest font-medium">Your Cart ({cartCount})</h2>
               <button 
                 onClick={() => setIsOpen(false)}
                 className="p-2 -mr-2 hover:bg-white/5 rounded-full transition-colors"
@@ -40,8 +41,12 @@ export const Cart: React.FC<CartProps> = ({ isOpen, setIsOpen }) => {
               <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center mb-6">
                 <span className="w-2 h-2 bg-white/20 rounded-full" />
               </div>
-              <h3 className="text-lg font-light tracking-widest uppercase mb-2">Cart is empty</h3>
-              <p className="text-secondary/50 text-sm">Discover the latest collection and elevate your movement.</p>
+              <h3 className="text-lg font-light tracking-widest uppercase mb-2">
+                {cartCount > 0 ? `You have ${cartCount} items` : 'Cart is empty'}
+              </h3>
+              <p className="text-secondary/50 text-sm">
+                {cartCount > 0 ? "Ready to checkout and elevate your movement?" : "Discover the latest collection and elevate your movement."}
+              </p>
               <button 
                 onClick={() => setIsOpen(false)}
                 className="mt-8 border-b text-sm tracking-widest uppercase pb-1 hover:text-white/70 transition-colors"
@@ -51,7 +56,16 @@ export const Cart: React.FC<CartProps> = ({ isOpen, setIsOpen }) => {
             </div>
 
             <div className="p-6 md:p-8 border-t border-white/10">
-              <button className="w-full py-4 bg-secondary text-primary uppercase tracking-widest text-sm font-medium flex items-center justify-center gap-2 group cursor-not-allowed opacity-50 relative overflow-hidden">
+              <button 
+                onClick={() => {
+                  if (cartCount > 0) {
+                    window.location.href = "https://laze-lab.myshopify.com/products/unisex-sweatpants";
+                  }
+                }}
+                className={`w-full py-4 bg-secondary text-primary uppercase tracking-widest text-sm font-medium flex items-center justify-center gap-2 group relative overflow-hidden ${
+                  cartCount === 0 ? 'cursor-not-allowed opacity-50' : 'hover:opacity-90'
+                }`}
+              >
                 <span className="relative z-10 flex items-center gap-2">
                   Checkout <ArrowRight size={16} />
                 </span>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SmoothScroll } from './components/SmoothScroll';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
@@ -12,6 +12,21 @@ import { Cart } from './components/Cart';
 
 export default function App() {
   const [cartOpen, setCartOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    const handleOpen = () => setCartOpen(true);
+    const handleAdd = () => {
+      setCartCount(prev => prev + 1);
+      setCartOpen(true);
+    };
+    window.addEventListener('open-cart', handleOpen);
+    window.addEventListener('add-to-cart', handleAdd);
+    return () => {
+      window.removeEventListener('open-cart', handleOpen);
+      window.removeEventListener('add-to-cart', handleAdd);
+    };
+  }, []);
 
   return (
     <SmoothScroll>
@@ -22,8 +37,8 @@ export default function App() {
           Let's pass state manually. We need to update Header for this, but for now we can wrap Header
           interaction or update Header directly. */}
       {/* I will edit Header shortly to accept setCartOpen */}
-      <Header setCartOpen={setCartOpen} />
-      <Cart isOpen={cartOpen} setIsOpen={setCartOpen} />
+      <Header setCartOpen={setCartOpen} cartCount={cartCount} />
+      <Cart isOpen={cartOpen} setIsOpen={setCartOpen} cartCount={cartCount} />
 
       <main className="relative z-0">
         <Hero />

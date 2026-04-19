@@ -4,7 +4,7 @@ import { BrandLogo } from './BrandLogo';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-primary pt-32 pb-8 px-6 md:px-12 border-t border-white/5 relative overflow-hidden">
+    <footer id="footer" className="bg-primary pt-32 pb-8 px-6 md:px-12 border-t border-white/5 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
       
       <div className="max-w-[1440px] mx-auto relative z-10 flex flex-col">
@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
                 className="bg-transparent w-full outline-none text-secondary placeholder:text-secondary/30 uppercase tracking-widest text-sm"
               />
               <Magnetic amount={0.3}>
-                <button className="uppercase tracking-widest text-sm font-medium hover:text-white/70 transition-colors">Submit</button>
+                <button onClick={() => alert('Thanks for subscribing!')} className="uppercase tracking-widest text-sm font-medium hover:text-white/70 transition-colors">Submit</button>
               </Magnetic>
               <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-secondary transition-all duration-500 group-hover:w-full" />
             </div>
@@ -30,14 +30,15 @@ export const Footer: React.FC = () => {
           
           <div className="flex gap-16 uppercase tracking-widest text-xs font-medium">
             <div className="flex flex-col gap-4">
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">Shop</a>
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">Lookbook</a>
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">About</a>
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">Contact</a>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-secondary hover:opacity-70 transition-opacity text-left">Shop</button>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('lookbook')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-secondary hover:opacity-70 transition-opacity text-left">Lookbook</button>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-secondary hover:opacity-70 transition-opacity text-left">About</button>
+              <button onClick={(e) => { e.preventDefault(); document.getElementById('footer')?.scrollIntoView({ behavior: 'smooth' }); }} className="text-secondary hover:opacity-70 transition-opacity text-left">Contact</button>
             </div>
             <div className="flex flex-col gap-4">
               <a href="mailto:Lazelab2026@gmail.com" className="text-secondary hover:opacity-70 transition-opacity">Contact</a>
-              <span className="text-secondary/50 normal-case mt-2">Lazelab2026@gmail.com</span>
+              <span className="text-secondary/50 normal-case">Lazelab2026@gmail.com</span>
+              <a href="https://www.instagram.com/lazelab.in?igsh=MTZ3YWp1ZHQwbnV4YQ%3D%3D&utm_source=qr" target="_blank" rel="noreferrer" className="text-secondary hover:opacity-70 transition-opacity mt-2">Instagram</a>
             </div>
           </div>
         </div>

@@ -30,7 +30,7 @@ export const Lookbook: React.FC = () => {
   );
 
   return (
-    <section ref={targetRef} className="h-[400vh] relative bg-primary">
+    <section id="lookbook" ref={targetRef} className="h-[400vh] relative bg-primary">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         
         <div className="absolute top-12 md:top-24 left-6 md:left-12 z-20 mix-blend-difference text-white pointer-events-none">

@@ -37,14 +37,14 @@ const products = [
 
 export const Collection: React.FC = () => {
   return (
-    <section className="py-32 md:py-48 max-w-[1440px] mx-auto px-6 md:px-12">
+    <section id="collection" className="py-32 md:py-48 max-w-[1440px] mx-auto px-6 md:px-12">
       <div className="flex flex-col md:flex-row justify-between items-end mb-16 md:mb-24">
         <h2 className="text-4xl md:text-6xl font-light tracking-tighter uppercase w-full md:w-1/2">
           Engineered<br />For Motion.
         </h2>
-        <a href="#" className="magnetic-interactive group flex items-center gap-2 text-sm uppercase tracking-widest mt-8 md:mt-0 font-medium">
+        <button onClick={() => document.getElementById('collection')?.scrollIntoView({ behavior: 'smooth' })} className="magnetic-interactive group flex items-center gap-2 text-sm uppercase tracking-widest mt-8 md:mt-0 font-medium">
           View All <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
-        </a>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
@@ -64,9 +64,15 @@ export const Collection: React.FC = () => {
                 </div>
               )}
               <div className="absolute top-4 right-4 z-20 opacity-0 transform translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                <div className="w-10 h-10 bg-primary/80 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary hover:text-primary transition-colors">
+                <button 
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.dispatchEvent(new CustomEvent('add-to-cart'));
+                  }}
+                  className="w-10 h-10 bg-primary/80 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary hover:text-primary transition-colors cursor-pointer"
+                >
                   <span className="text-lg leading-none mb-0.5">+</span>
-                </div>
+                </button>
               </div>
               <img 
                 src={product.images[0]} 
