@@ -3,7 +3,7 @@ import { ShoppingBag, Menu } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent } from 'motion/react';
 import { BrandLogo } from './BrandLogo';
 
-export const Header: React.FC<{ setCartOpen?: (b: boolean) => void, cartCount?: number }> = ({ setCartOpen, cartCount = 0 }) => {
+export const Header: React.FC = () => {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -44,15 +44,13 @@ export const Header: React.FC<{ setCartOpen?: (b: boolean) => void, cartCount?: 
         </div>
         
         <button 
-          onClick={() => setCartOpen?.(true)}
+          onClick={() => {
+            const cart: any = document.getElementById('cart');
+            if (cart && typeof cart.showModal === 'function') cart.showModal();
+          }}
           className="magnetic-interactive p-2 -mr-2 text-secondary/80 hover:text-secondary transition-colors relative"
         >
           <ShoppingBag strokeWidth={1.5} size={24} />
-          {cartCount > 0 && (
-            <span className="absolute top-1 right-1 w-4 h-4 bg-secondary rounded-full flex items-center justify-center text-[10px] text-primary font-bold">
-              {cartCount}
-            </span>
-          )}
         </button>
       </div>
     </motion.header>

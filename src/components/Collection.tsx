@@ -2,38 +2,8 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 
-const products = [
-  {
-    id: 1,
-    name: 'AeroKnit Jogger',
-    price: '$120',
-    tag: 'New Arrival',
-    images: [
-      'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1506152983158-b4a74a01c721?q=80&w=1000&auto=format&fit=crop'
-    ]
-  },
-  {
-    id: 2,
-    name: 'Tech-Stretch Short',
-    price: '$85',
-    tag: 'Bestseller',
-    images: [
-      'https://images.unsplash.com/photo-1574626154625-9614c24d14b4?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1502421379766-3d2371b694b8?q=80&w=1000&auto=format&fit=crop'
-    ]
-  },
-  {
-    id: 3,
-    name: 'Zero-G Trackpant',
-    price: '$145',
-    tag: '',
-    images: [
-      'https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?q=80&w=1000&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1620799139834-6b8f844fbe61?q=80&w=1000&auto=format&fit=crop'
-    ]
-  }
-];
+// We fallback to standard mock handles or handles we expect in the Shopify Store
+const productHandles = ['unisex-sweatpants', 'hoodie', 'tech-stretch-short'];
 
 export const Collection: React.FC = () => {
   return (
@@ -48,49 +18,51 @@ export const Collection: React.FC = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
-        {products.map((product, i) => (
+        {productHandles.map((handle, i) => (
           <motion.div 
-            key={product.id}
+            key={handle}
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, delay: i * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="group cursor-pointer magnetic-interactive flex flex-col"
+            className="group cursor-pointer flex flex-col"
           >
-            <div className="relative aspect-[3/4] w-full overflow-hidden bg-white/5 mb-6 rounded-sm">
-              {product.tag && (
-                <div className="absolute top-4 left-4 z-20 text-[10px] uppercase tracking-widest bg-secondary text-primary px-3 py-1 rounded-full font-medium">
-                  {product.tag}
+            <shopify-context type="product" handle={handle}>
+              <template dangerouslySetInnerHTML={{ __html: `
+                <div class="relative aspect-[3/4] w-full overflow-hidden bg-white/5 mb-6 rounded-sm">
+                  
+                  <div class="absolute top-4 right-4 z-20 opacity-0 transform translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                    <button 
+                      onclick="const cart = document.getElementById('cart'); if (cart) cart.addLine(event).showModal();"
+                      shopfiy-attr--disabled="!product.selectedOrFirstAvailableVariant.availableForSale"
+                      class="w-10 h-10 bg-primary/80 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary hover:text-primary transition-colors cursor-pointer"
+                    >
+                      <span class="text-lg leading-none mb-0.5">+</span>
+                    </button>
+                  </div>
+                  
+                  <!-- Dynamic Image -->
+                  <shopify-media 
+                    query="product.selectedOrFirstAvailableVariant.image"
+                    layout="fullWidth"
+                    style="width: 100%; height: 100%; object-fit: cover; display: block;"
+                  ></shopify-media>
                 </div>
-              )}
-              <div className="absolute top-4 right-4 z-20 opacity-0 transform translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                <button 
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.dispatchEvent(new CustomEvent('add-to-cart'));
-                  }}
-                  className="w-10 h-10 bg-primary/80 backdrop-blur-md rounded-full flex items-center justify-center border border-white/10 hover:bg-secondary hover:text-primary transition-colors cursor-pointer"
-                >
-                  <span className="text-lg leading-none mb-0.5">+</span>
-                </button>
+
+                <div class="flex justify-between items-start">
+                  <h3 class="text-lg font-medium tracking-tight uppercase">
+                    <shopify-data query="product.title"></shopify-data>
+                  </h3>
+                  <p class="text-secondary/60 text-sm tracking-wider">
+                    <shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money>
+                  </p>
+                </div>
+              `}} />
+              
+              <div shopify-loading-placeholder={true as any} className="aspect-[3/4] w-full flex items-center justify-center bg-white/5 mb-6 rounded-sm text-secondary/30 uppercase text-xs tracking-widest">
+                Loading...
               </div>
-              <img 
-                src={product.images[0]} 
-                alt={`${product.name} view 1`}
-                className="absolute inset-0 w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0"
-                referrerPolicy="no-referrer"
-              />
-              <img 
-                src={product.images[1]} 
-                alt={`${product.name} view 2`}
-                className="absolute inset-0 w-full h-full object-cover opacity-0 transition-all duration-700 scale-105 group-hover:opacity-100 group-hover:scale-100"
-                referrerPolicy="no-referrer"
-              />
-            </div>
-            <div className="flex justify-between items-start">
-              <h3 className="text-lg font-medium tracking-tight uppercase">{product.name}</h3>
-              <p className="text-secondary/60 text-sm tracking-wider">{product.price}</p>
-            </div>
+            </shopify-context>
           </motion.div>
         ))}
       </div>
