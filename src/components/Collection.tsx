@@ -30,12 +30,7 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
             transition={{ duration: 0.6, delay: i * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="group cursor-pointer flex flex-col"
             onClick={() => {
-              const modalContext = document.getElementById('product-modal-context');
-              const modal: any = document.getElementById('product-modal');
-              if (modalContext && modal) {
-                modalContext.setAttribute('handle', product.handle);
-                modal.showModal();
-              }
+              window.dispatchEvent(new CustomEvent('open-product', { detail: { handle: product.handle } }));
             }}
           >
             <shopify-context type="product" handle={product.handle}>
