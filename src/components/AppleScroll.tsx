@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 
 export const AppleScroll: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -8,43 +8,52 @@ export const AppleScroll: React.FC = () => {
     offset: ["start start", "end end"]
   });
 
+  // Inertial smooth spring for that buttery Apple scroll translation feeling
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    mass: 1,
+    restDelta: 0.001
+  });
+
   // --- TEXT TIMING ---
+  // Adjusted for perfect breathing room (Text 1 fades completely before Text 2 appears)
   // Precision Fit
-  const text1Opacity = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.3], [0, 1, 1, 0]);
-  const text1Y = useTransform(scrollYProgress, [0, 0.1, 0.2, 0.3], [50, 0, 0, -50]);
+  const text1Opacity = useTransform(smoothProgress, [0, 0.05, 0.22, 0.28], [0, 1, 1, 0]);
+  const text1Y = useTransform(smoothProgress, [0, 0.05, 0.22, 0.28], [40, 0, 0, -40]);
 
   // Engineered Comfort
-  const text2Opacity = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [0, 1, 1, 0]);
-  const text2Y = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [50, 0, 0, -50]);
+  const text2Opacity = useTransform(smoothProgress, [0.35, 0.40, 0.57, 0.63], [0, 1, 1, 0]);
+  const text2Y = useTransform(smoothProgress, [0.35, 0.40, 0.57, 0.63], [40, 0, 0, -40]);
 
   // Zero Gravity
-  const text3Opacity = useTransform(scrollYProgress, [0.7, 0.8, 0.9, 1], [0, 1, 1, 0]);
-  const text3Y = useTransform(scrollYProgress, [0.7, 0.8, 0.9, 1], [50, 0, 0, -50]);
+  const text3Opacity = useTransform(smoothProgress, [0.70, 0.75, 0.92, 0.98], [0, 1, 1, 0]);
+  const text3Y = useTransform(smoothProgress, [0.70, 0.75, 0.92, 0.98], [40, 0, 0, -40]);
 
   // --- BACKGROUND MODIFIERS ---
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.4]);
+  const bgScale = useTransform(smoothProgress, [0, 1], [1, 1.4]);
   // Darken background slowly to let visual effects shine
-  const bgOpacity = useTransform(scrollYProgress, [0.3, 0.7], [0.3, 0.1]);
+  const bgOpacity = useTransform(smoothProgress, [0.3, 0.7], [0.3, 0.1]);
 
   // --- FEATURE 1: PRECISION FIT (Contour Mapping & Scanline) ---
-  const contourOpacity = useTransform(scrollYProgress, [0, 0.1, 0.25, 0.3], [0, 1, 1, 0]);
-  const scanLineY = useTransform(scrollYProgress, [0, 0.25], ["-10%", "110%"]);
-  const pathLength1 = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
-  const pathLength2 = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
+  const contourOpacity = useTransform(smoothProgress, [0, 0.05, 0.22, 0.28], [0, 1, 1, 0]);
+  const scanLineY = useTransform(smoothProgress, [0, 0.25], ["-10%", "110%"]);
+  const pathLength1 = useTransform(smoothProgress, [0, 0.15], [0, 1]);
+  const pathLength2 = useTransform(smoothProgress, [0.05, 0.2], [0, 1]);
 
   // --- FEATURE 2: ENGINEERED COMFORT (Airflow Simulation) ---
-  const breathOpacity = useTransform(scrollYProgress, [0.35, 0.45, 0.55, 0.65], [0, 1, 1, 0]);
+  const breathOpacity = useTransform(smoothProgress, [0.35, 0.40, 0.57, 0.63], [0, 1, 1, 0]);
   // Use negative values to simulate flowing air when offset animates toward 0
-  const airFlow1 = useTransform(scrollYProgress, [0.35, 0.65], [1500, 0]);
-  const airFlow2 = useTransform(scrollYProgress, [0.38, 0.65], [-1500, 0]);
+  const airFlow1 = useTransform(smoothProgress, [0.35, 0.63], [1500, 0]);
+  const airFlow2 = useTransform(smoothProgress, [0.38, 0.63], [-1500, 0]);
 
   // --- FEATURE 3: ZERO GRAVITY (Floating Glass Parallax) ---
-  const gravityOpacity = useTransform(scrollYProgress, [0.65, 0.8, 0.95, 1], [0, 1, 1, 0]);
-  const floatY1 = useTransform(scrollYProgress, [0.65, 1], [200, -200]);
-  const floatY2 = useTransform(scrollYProgress, [0.65, 1], [300, -100]);
-  const floatY3 = useTransform(scrollYProgress, [0.65, 1], [400, -300]);
-  const floatRotate1 = useTransform(scrollYProgress, [0.65, 1], [0, 15]);
-  const floatRotate2 = useTransform(scrollYProgress, [0.65, 1], [0, -10]);
+  const gravityOpacity = useTransform(smoothProgress, [0.70, 0.75, 0.92, 0.98], [0, 1, 1, 0]);
+  const floatY1 = useTransform(smoothProgress, [0.65, 1], [200, -200]);
+  const floatY2 = useTransform(smoothProgress, [0.65, 1], [300, -100]);
+  const floatY3 = useTransform(smoothProgress, [0.65, 1], [400, -300]);
+  const floatRotate1 = useTransform(smoothProgress, [0.65, 1], [0, 15]);
+  const floatRotate2 = useTransform(smoothProgress, [0.65, 1], [0, -10]);
 
   return (
     <section ref={containerRef} className="h-[400vh] w-full relative">

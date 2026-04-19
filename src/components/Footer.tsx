@@ -1,5 +1,6 @@
 import React from 'react';
 import { Magnetic } from './ui/Magnetic';
+import { BrandLogo } from './BrandLogo';
 
 export const Footer: React.FC = () => {
   return (
@@ -35,18 +36,19 @@ export const Footer: React.FC = () => {
               <a href="#" className="text-secondary hover:opacity-70 transition-opacity">Contact</a>
             </div>
             <div className="flex flex-col gap-4">
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">Instagram</a>
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">Twitter</a>
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">TikTok</a>
-              <a href="#" className="text-secondary hover:opacity-70 transition-opacity">Spotify</a>
+              <a href="mailto:Lazelab2026@gmail.com" className="text-secondary hover:opacity-70 transition-opacity">Contact</a>
+              <span className="text-secondary/50 normal-case mt-2">Lazelab2026@gmail.com</span>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 uppercase tracking-wider text-[10px] text-secondary/40 gap-4">
-          <p>© {new Date().getFullYear()} Underthere. All rights reserved.</p>
-          <div className="text-[12vw] leading-none font-bold tracking-tighter text-white/5 select-none pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 mb-4">
-            UNDERTHERE
+          <p>© {new Date().getFullYear()} Laze Labs. All rights reserved.</p>
+          <div className="flex flex-col items-center gap-2 pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 mb-4 opacity-5">
+            <BrandLogo className="w-32 h-32 md:w-48 md:h-48" />
+            <div className="text-[12vw] leading-none font-bold tracking-tighter whitespace-nowrap">
+              LAZE LABS
+            </div>
           </div>
           <p className="z-10">Essentials, Elevated.</p>
         </div>

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { SmoothScroll } from './components/SmoothScroll';
-import { CustomCursor } from './components/Cursor';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Collection } from './components/Collection';
@@ -17,7 +16,6 @@ export default function App() {
   return (
     <SmoothScroll>
       <div className="noise-overlay" />
-      <CustomCursor />
       
       {/* We intercept header cart clicks by passing a generic mechanism or via layout context. 
           For simplicity, we'll just open the cart explicitly across the app or inside header.

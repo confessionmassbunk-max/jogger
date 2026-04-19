@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ShoppingBag, Menu } from 'lucide-react';
 import { motion, useScroll, useMotionValueEvent } from 'motion/react';
+import { BrandLogo } from './BrandLogo';
 
 export const Header: React.FC<{ setCartOpen?: (b: boolean) => void }> = ({ setCartOpen }) => {
   const { scrollY } = useScroll();
@@ -35,8 +36,11 @@ export const Header: React.FC<{ setCartOpen?: (b: boolean) => void }> = ({ setCa
           <Menu strokeWidth={1.5} size={24} />
         </button>
         
-        <div className="text-xl md:text-2xl font-medium tracking-tight uppercase magnetic-interactive cursor-pointer select-none">
-          Underthere<span className="text-secondary/50">.</span>
+        <div className="magnetic-interactive cursor-pointer select-none flex items-center gap-3">
+          <BrandLogo className="w-12 h-12 md:w-16 md:h-16 mt-1" />
+          <div className="text-xl md:text-2xl font-medium tracking-tight uppercase hidden md:flex items-center gap-1">
+            LAZE LABS<span className="text-secondary/50">.</span>
+          </div>
         </div>
         
         <button 

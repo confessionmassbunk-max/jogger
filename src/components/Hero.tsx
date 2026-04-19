@@ -20,12 +20,12 @@ export const Hero: React.FC = () => {
         className="absolute inset-0 w-full h-full z-0"
       >
         <img 
-          src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auth=fit&crop=entropy" 
-          alt="High fashion athletic wear"
-          className="w-full h-full object-cover opacity-60"
+          src="https://images.unsplash.com/photo-1506152983158-b4a74a01c721?q=80&w=2000&auto=format&fit=crop" 
+          alt="Athlete running dark creative motion"
+          className="w-full h-full object-cover opacity-60 mix-blend-luminosity"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/30 to-transparent" />
       </motion.div>
 
       <motion.div 
