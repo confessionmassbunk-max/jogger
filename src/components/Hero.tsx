@@ -20,9 +20,9 @@ export const Hero: React.FC = () => {
         className="absolute inset-0 w-full h-full z-0"
       >
         <img 
-          src="https://images.unsplash.com/photo-1506152983158-b4a74a01c721?q=80&w=2000&auto=format&fit=crop" 
-          alt="Athlete running dark creative motion"
-          className="w-full h-full object-cover opacity-60 mix-blend-luminosity"
+          src="/hero-bg.png" 
+          alt="Laze Labs Models"
+          className="w-full h-full object-cover"
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-primary via-primary/30 to-transparent" />

@@ -6,7 +6,6 @@ import { Collection } from './components/Collection';
 import { AppleScroll } from './components/AppleScroll';
 import { Features } from './components/Features';
 import { Lookbook } from './components/Lookbook';
-import { Testimonials } from './components/Testimonials';
 import { Footer } from './components/Footer';
 
 export default function App() {
@@ -100,7 +99,6 @@ export default function App() {
           <AppleScroll />
           <Features />
           <Lookbook />
-          <Testimonials />
         </main>
 
         <Footer />
