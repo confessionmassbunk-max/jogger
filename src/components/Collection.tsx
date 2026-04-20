@@ -67,6 +67,19 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
     return products.filter(p => p.category === category);
   }, [category, products]);
 
+  useEffect(() => {
+    if (!isLoading && products.length > 0) {
+      // Trigger Shopify Web Components manually after React paints them
+      // They break if asynchronously mounted without wait-for-update
+      filteredProducts.forEach(product => {
+        const ctx = document.getElementById(`grid-ctx-${product.handle}`);
+        if (ctx) {
+          ctx.setAttribute('handle', product.handle);
+        }
+      });
+    }
+  }, [isLoading, filteredProducts]);
+
   if (isLoading) {
     return (
       <section id="collection" className="py-24 md:py-32 max-w-[1440px] mx-auto px-6 md:px-12 min-h-[50vh] flex items-center justify-center">
@@ -95,7 +108,7 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
               window.dispatchEvent(new CustomEvent('open-product', { detail: { handle: product.handle } }));
             }}
           >
-            <shopify-context type="product" handle={product.handle}>
+            <shopify-context id={`grid-ctx-${product.handle}`} type="product" wait-for-update="true">
               <template dangerouslySetInnerHTML={{ __html: `
                 <div class="relative w-full overflow-hidden bg-[#0A0A0A] mb-6 rounded-[16px] border border-white/5 transition-colors group-hover:border-white/15" style="aspect-ratio: 4/5;">
                   
