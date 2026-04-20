@@ -17,12 +17,20 @@ export default function App() {
     const handleOpenModal = (e: any) => {
       const modalContext = document.getElementById('product-modal-context');
       const modal: any = document.getElementById('product-modal');
+      
       if (modalContext && modal) {
+        // Toggle the wait buffer so Shopify recognizes the handle change
+        modalContext.setAttribute('wait-for-update', 'true');
         modalContext.setAttribute('handle', e.detail.handle);
-        modalContext.removeAttribute('wait-for-update');
-        modal.showModal();
+        
+        // Remove the buffer on the next tick to flush the Storefront fetch
+        setTimeout(() => {
+          modalContext.removeAttribute('wait-for-update');
+          modal.showModal();
+        }, 20);
       }
     };
+    
     window.addEventListener('open-product', handleOpenModal);
     return () => window.removeEventListener('open-product', handleOpenModal);
   }, []);
