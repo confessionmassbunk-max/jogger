@@ -76,7 +76,7 @@ export default function App() {
       <shopify-store
         store-domain="laze-lab.myshopify.com"
         public-access-token="fd04f3df73d9dcd4b5a89041f6670758"
-        country="US"
+        country="IN"
         language="en"
       >
       </shopify-store>

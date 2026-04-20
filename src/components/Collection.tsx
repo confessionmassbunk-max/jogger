@@ -131,7 +131,7 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
                 {product.title}
               </h3>
               <p className="text-white/60 text-xs md:text-sm tracking-widest font-light">
-                ${parseFloat(product.price).toFixed(2)}
+                ₹{parseFloat(product.price).toFixed(2)}
               </p>
             </div>
           </motion.div>
