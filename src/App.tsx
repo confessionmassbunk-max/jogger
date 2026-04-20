@@ -19,6 +19,7 @@ export default function App() {
       const modal: any = document.getElementById('product-modal');
       if (modalContext && modal) {
         modalContext.setAttribute('handle', e.detail.handle);
+        modalContext.removeAttribute('wait-for-update');
         modal.showModal();
       }
     };

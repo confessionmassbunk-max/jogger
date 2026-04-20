@@ -4,6 +4,9 @@ import { ArrowRight } from 'lucide-react';
 
 interface ShopifyProduct {
   handle: string;
+  title: string;
+  image: string;
+  price: string;
   category: string;
 }
 
@@ -21,6 +24,18 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
                 node {
                   handle
                   title
+                  variants(first: 1) {
+                    edges {
+                      node {
+                        price {
+                          amount
+                        }
+                        image {
+                          url
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -45,8 +60,13 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
           if (title.includes('tee') || title.includes('t-shirt')) cat = 'Tees';
           if (title.includes('cap') || title.includes('hat')) cat = 'Headwear';
 
+          const variantNode = edge.node.variants?.edges?.[0]?.node;
+
           return {
             handle: edge.node.handle,
+            title: edge.node.title,
+            image: variantNode?.image?.url || '',
+            price: variantNode?.price?.amount || '0.00',
             category: cat
           };
         });
@@ -66,19 +86,6 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
     if (category === 'All') return products;
     return products.filter(p => p.category === category);
   }, [category, products]);
-
-  useEffect(() => {
-    if (!isLoading && products.length > 0) {
-      // Trigger Shopify Web Components manually after React paints them
-      // They break if asynchronously mounted without wait-for-update
-      filteredProducts.forEach(product => {
-        const ctx = document.getElementById(`grid-ctx-${product.handle}`);
-        if (ctx) {
-          ctx.setAttribute('handle', product.handle);
-        }
-      });
-    }
-  }, [isLoading, filteredProducts]);
 
   if (isLoading) {
     return (
@@ -108,34 +115,25 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
               window.dispatchEvent(new CustomEvent('open-product', { detail: { handle: product.handle } }));
             }}
           >
-            <shopify-context id={`grid-ctx-${product.handle}`} type="product" wait-for-update="true">
-              <template dangerouslySetInnerHTML={{ __html: `
-                <div class="relative w-full overflow-hidden bg-[#0A0A0A] mb-6 rounded-[16px] border border-white/5 transition-colors group-hover:border-white/15" style="aspect-ratio: 4/5;">
-                  
-                  <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 z-10 pointer-events-none"></div>
+            <div className="relative w-full overflow-hidden bg-[#0A0A0A] mb-6 rounded-[16px] border border-white/5 transition-colors group-hover:border-white/15" style={{ aspectRatio: '4/5' }}>
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-500 z-10 pointer-events-none"></div>
+              {product.image && (
+                <img 
+                  src={product.image} 
+                  alt={product.title}
+                  className="w-full h-full object-cover block rounded-[16px]"
+                />
+              )}
+            </div>
 
-                  <!-- Dynamic Image -->
-                  <shopify-media 
-                    query="product.selectedOrFirstAvailableVariant.image"
-                    layout="fullWidth"
-                    style="width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 16px;"
-                  ></shopify-media>
-                </div>
-
-                <div class="flex justify-between items-start px-2">
-                  <h3 class="text-sm md:text-base font-medium tracking-tight uppercase text-white group-hover:text-white/80 transition-colors">
-                    <shopify-data query="product.title"></shopify-data>
-                  </h3>
-                  <p class="text-white/60 text-xs md:text-sm tracking-widest font-light">
-                    <shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money>
-                  </p>
-                </div>
-              `}} />
-              
-              <div shopify-loading-placeholder={true as any} className="w-full flex items-center justify-center bg-[#111] mb-6 rounded-[16px] border border-white/5" style={{ aspectRatio: '4/5' }}>
-                <div class="w-6 h-6 border-[1px] border-white/10 border-t-white/60 rounded-full animate-spin"></div>
-              </div>
-            </shopify-context>
+            <div className="flex justify-between items-start px-2">
+              <h3 className="text-sm md:text-base font-medium tracking-tight uppercase text-white group-hover:text-white/80 transition-colors">
+                {product.title}
+              </h3>
+              <p className="text-white/60 text-xs md:text-sm tracking-widest font-light">
+                ${parseFloat(product.price).toFixed(2)}
+              </p>
+            </div>
           </motion.div>
         ))}
       </div>
