@@ -2,10 +2,9 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 
 const lookbookImages = [
-  'https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?q=80&w=1000&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1543728069-a3f97c1bd017?q=80&w=1000&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1000&auto=format&fit=crop',
-  'https://images.unsplash.com/photo-1555529733-0e670560f7e1?q=80&w=1000&auto=format&fit=crop',
+  '/lookbook-1.jpg',
+  '/lookbook-2.jpg',
+  '/lookbook-3.jpg',
 ];
 
 export const Lookbook: React.FC = () => {
@@ -25,12 +24,12 @@ export const Lookbook: React.FC = () => {
   // Stepped transform to create the "snap" pauses as the user scrolls
   const x = useTransform(
     smoothProgress,
-    [0, 0.15, 0.25, 0.45, 0.55, 0.75, 0.85, 1],
-    ["0%", "0%", "-25%", "-25%", "-50%", "-50%", "-75%", "-75%"]
+    [0, 0.2, 0.35, 0.65, 0.8, 1],
+    ["0%", "0%", "-33.333333%", "-33.333333%", "-66.666667%", "-66.666667%"]
   );
 
   return (
-    <section id="lookbook" ref={targetRef} className="h-[400vh] relative bg-primary">
+    <section id="lookbook" ref={targetRef} className="h-[300vh] relative bg-primary">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         
         <div className="absolute top-12 md:top-24 left-6 md:left-12 z-20 mix-blend-difference text-white pointer-events-none">
@@ -38,12 +37,12 @@ export const Lookbook: React.FC = () => {
           <p className="tracking-widest uppercase text-xs md:text-sm font-medium">SS/26 Collection</p>
         </div>
 
-        <motion.div style={{ x }} className="flex px-6 md:px-32 w-[400vw] h-[60vh] md:h-[70vh] items-center will-change-transform">
+        <motion.div style={{ x }} className="flex px-6 md:px-32 w-[300vw] h-[60vh] md:h-[70vh] items-center will-change-transform">
           {lookbookImages.map((src, idx) => {
             // Calculate parallax for each image individually based on its phase
-            // Phase centers: 0, 0.35, 0.65, 1
-            const phaseStart = Math.max(0, (idx - 1) * 0.33);
-            const phaseEnd = Math.min(1, (idx + 1) * 0.33);
+            // Phase centers: 0, 0.5, 1
+            const phaseStart = Math.max(0, (idx - 1) * 0.5);
+            const phaseEnd = Math.min(1, (idx + 1) * 0.5);
             
             const imageX = useTransform(
               smoothProgress,
