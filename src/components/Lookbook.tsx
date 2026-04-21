@@ -29,7 +29,7 @@ export const Lookbook: React.FC = () => {
   );
 
   return (
-    <section id="lookbook" ref={targetRef} className="h-[300vh] relative bg-primary">
+    <section id="lookbook" ref={targetRef} className="h-[200vh] md:h-[300vh] relative bg-primary">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         
         <div className="absolute top-12 md:top-24 left-6 md:left-12 z-20 mix-blend-difference text-white pointer-events-none">
@@ -37,7 +37,7 @@ export const Lookbook: React.FC = () => {
           <p className="tracking-widest uppercase text-xs md:text-sm font-medium">SS/26 Collection</p>
         </div>
 
-        <motion.div style={{ x }} className="flex px-6 md:px-32 w-[300vw] h-[60vh] md:h-[70vh] items-center will-change-transform">
+        <motion.div style={{ x }} className="flex px-4 md:px-32 w-[300vw] h-[75vh] md:h-[80vh] items-center will-change-transform">
           {lookbookImages.map((src, idx) => {
             // Calculate parallax for each image individually based on its phase
             // Phase centers: 0, 0.5, 1
@@ -53,10 +53,9 @@ export const Lookbook: React.FC = () => {
             return (
               <div 
                 key={idx} 
-                className="relative h-[50vh] md:h-[70vh] w-full flex-none overflow-hidden group magnetic-interactive"
-                style={{ width: '100vw', paddingRight: '12vw' }}
+                className="relative h-[75vh] md:h-[80vh] flex-none overflow-hidden group magnetic-interactive w-[100vw] pr-[4vw] md:pr-[12vw]"
               >
-                <div className="w-full h-full relative overflow-hidden flex justify-center">
+                <div className="w-full h-full relative overflow-hidden flex justify-center rounded-2xl md:rounded-none bg-black">
                   <motion.img 
                     style={{ x: imageX, scale: 1.15 }}
                     src={src} 
