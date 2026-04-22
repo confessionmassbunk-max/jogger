@@ -7,6 +7,8 @@ import { AppleScroll } from './components/AppleScroll';
 import { Features } from './components/Features';
 import { Lookbook } from './components/Lookbook';
 import { Footer } from './components/Footer';
+import { CookieConsent } from './components/CookieConsent';
+import { LegalModals } from './components/LegalModals';
 
 export default function App() {
   const [category, setCategory] = useState<'All' | 'Sweatpants' | 'Shorts'>('All');
@@ -84,9 +86,12 @@ export default function App() {
       <shopify-cart id="cart" position="right" backdrop></shopify-cart>
       
       {/* Product Modal */}
-      <dialog id="product-modal" className="product-modal fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[24px] shadow-2xl border-0 p-0 m-0 w-[90%] max-w-4xl backdrop:bg-black/50 overflow-hidden bg-[#0A0A0A] text-[#F5F5F5]">
+      <dialog id="product-modal" className="product-modal fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-[24px] shadow-2xl border-0 p-0 m-0 w-[90%] max-w-4xl backdrop:bg-black/50 overflow-hidden bg-[#0A0A0A] text-[#F5F5F5] z-[150]">
         <div id="modal-wrapper"></div>
       </dialog>
+
+      <LegalModals />
+      <CookieConsent />
 
       <SmoothScroll>
         <div className="noise-overlay" />

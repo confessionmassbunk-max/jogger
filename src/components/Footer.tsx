@@ -43,15 +43,21 @@ export const Footer: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 uppercase tracking-wider text-[10px] text-secondary/40 gap-4">
-          <p>© {new Date().getFullYear()} Laze Labs. All rights reserved.</p>
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10 uppercase tracking-wider text-[10px] text-secondary/40 gap-4 z-10 relative">
+          <div className="flex flex-wrap justify-center md:justify-start gap-4 items-center">
+            <p>© {new Date().getFullYear()} Laze Labs. All rights reserved.</p>
+            <span className="hidden md:inline">|</span>
+            <button onClick={() => window.dispatchEvent(new CustomEvent('open-legal-modal', { detail: { type: 'privacy' } }))} className="hover:text-white transition-colors cursor-pointer">Privacy Policy</button>
+            <span className="hidden md:inline">|</span>
+            <button onClick={() => window.dispatchEvent(new CustomEvent('open-legal-modal', { detail: { type: 'terms' } }))} className="hover:text-white transition-colors cursor-pointer">Terms of Service</button>
+          </div>
           <div className="flex flex-col items-center gap-2 pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 mb-4 opacity-5">
             <BrandLogo className="w-32 h-32 md:w-48 md:h-48" />
             <div className="text-[12vw] leading-none font-bold tracking-tighter whitespace-nowrap">
               LAZE LABS
             </div>
           </div>
-          <p className="z-10">Essentials, Elevated.</p>
+          <p>Essentials, Elevated.</p>
         </div>
 
       </div>
