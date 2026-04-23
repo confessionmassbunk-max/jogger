@@ -8,6 +8,7 @@ interface ShopifyProduct {
   image: string;
   price: string;
   category: string;
+  images?: string[];
 }
 
 export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }) => {
@@ -33,6 +34,13 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
                         image {
                           url
                         }
+                      }
+                    }
+                  }
+                  images(first: 10) {
+                    edges {
+                      node {
+                        url
                       }
                     }
                   }
@@ -67,7 +75,8 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
             title: edge.node.title,
             image: variantNode?.image?.url || '',
             price: variantNode?.price?.amount || '0.00',
-            category: cat
+            category: cat,
+            images: edge.node.images?.edges?.map((e: any) => e.node.url) || []
           };
         });
         
@@ -112,7 +121,7 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
             transition={{ duration: 0.6, delay: i * 0.1, ease: [0.21, 0.47, 0.32, 0.98] }}
             className="group cursor-pointer flex flex-col w-full"
             onClick={() => {
-              window.dispatchEvent(new CustomEvent('open-product', { detail: { handle: product.handle } }));
+              window.dispatchEvent(new CustomEvent('open-product', { detail: { handle: product.handle, images: product.images } }));
             }}
           >
             <div className="relative w-full overflow-hidden bg-[#0A0A0A] mb-6 rounded-[16px] border border-white/5 transition-colors group-hover:border-white/15" style={{ aspectRatio: '4/5' }}>

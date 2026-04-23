@@ -19,6 +19,14 @@ export default function App() {
       const modal: any = document.getElementById('product-modal');
       
       if (modalWrapper && modal) {
+        const imagesHtml = e.detail.images && e.detail.images.length > 0
+          ? e.detail.images.map((imgUrl: string) => `
+              <div class="snap-center shrink-0 w-full flex-none">
+                <img src="${imgUrl}" alt="Product Image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;" />
+              </div>
+            `).join('')
+          : `<shopify-media layout="fullWidth" query="product.selectedOrFirstAvailableVariant.image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;"></shopify-media>`;
+
         modalWrapper.innerHTML = `
           <shopify-context type="product" handle="${e.detail.handle}">
             <template>
@@ -29,8 +37,11 @@ export default function App() {
                   </button>
                 </div>
                 <div class="px-6 pb-10 md:px-10 flex flex-col md:flex-row gap-8">
-                  <div class="w-full md:w-1/2">
-                     <shopify-media layout="fullWidth" query="product.selectedOrFirstAvailableVariant.image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;"></shopify-media>
+                  <div class="w-full md:w-1/2 overflow-hidden">
+                     <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full" style="scrollbar-width: none; -ms-overflow-style: none;">
+                       ${imagesHtml}
+                     </div>
+                     ${e.detail.images && e.detail.images.length > 1 ? `<div class="text-center text-xs text-white/50 mt-4 uppercase tracking-widest">← Swipe for more →</div>` : ''}
                   </div>
                   <div class="w-full md:w-1/2 flex flex-col justify-center">
                      <h1 class="text-3xl md:text-4xl font-light uppercase tracking-tight mb-2"><shopify-data query="product.title"></shopify-data></h1>
@@ -115,6 +126,7 @@ export default function App() {
         shopify-variant-selector::part(select) { width: 100%; appearance: none; background: #111; border: 1px solid rgba(255,255,255,0.1); color: white; padding: 12px 16px; border-radius: 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; outline: none; transition: border-color 0.3s ease; }
         shopify-variant-selector::part(select):hover { border-color: rgba(255,255,255,0.25); }
         shopify-variant-selector::part(select):focus { border-color: white; }
+        .flex::-webkit-scrollbar { display: none; }
       `}} />
     </div>
   );
