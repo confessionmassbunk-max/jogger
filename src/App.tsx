@@ -45,7 +45,7 @@ export default function App() {
                 </div>
                 <div class="px-6 pb-10 md:px-10 flex flex-col md:flex-row gap-8">
                   <div class="w-full md:w-1/2 overflow-hidden">
-                     <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full" style="scrollbar-width: none; -ms-overflow-style: none;">
+                     <div id="product-gallery-container" class="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full" style="scrollbar-width: none; -ms-overflow-style: none;">
                        ${imagesHtml}
                      </div>
                      ${e.detail.images && e.detail.images.length > 1 ? `<div class="text-center text-xs text-white/50 mt-4 uppercase tracking-widest">← Swipe for more →</div>` : ''}
@@ -54,7 +54,7 @@ export default function App() {
                      <h1 class="text-3xl md:text-4xl font-light uppercase tracking-tight mb-2"><shopify-data query="product.title"></shopify-data></h1>
                      <div class="text-xl text-white/50 mb-8"><shopify-money query="product.selectedOrFirstAvailableVariant.price" format="money_with_currency"></shopify-money></div>
                      
-                     <div class="mb-10 w-full">
+                     <div class="mb-10 w-full" onchange="document.getElementById('product-gallery-container')?.scrollTo({ left: 0, behavior: 'smooth' })">
                        <shopify-variant-selector></shopify-variant-selector>
                      </div>
                      
