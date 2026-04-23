@@ -19,13 +19,20 @@ export default function App() {
       const modal: any = document.getElementById('product-modal');
       
       if (modalWrapper && modal) {
-        const imagesHtml = e.detail.images && e.detail.images.length > 0
-          ? e.detail.images.map((imgUrl: string) => `
+        const galleryHtml = e.detail.images && e.detail.images.length > 1
+          ? e.detail.images.slice(1).map((imgUrl: string) => `
               <div class="snap-center shrink-0 w-full flex-none">
-                <img src="${imgUrl}" alt="Product Image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;" />
+                <img src="${imgUrl}" alt="Product Image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;" loading="lazy" />
               </div>
             `).join('')
-          : `<shopify-media layout="fullWidth" query="product.selectedOrFirstAvailableVariant.image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;"></shopify-media>`;
+          : '';
+
+        const imagesHtml = `
+          <div class="snap-center shrink-0 w-full flex-none">
+            <shopify-media layout="fullWidth" query="product.selectedOrFirstAvailableVariant.image" style="width: 100%; border-radius: 12px; object-fit: cover; aspect-ratio: 4/5;"></shopify-media>
+          </div>
+          ${galleryHtml}
+        `;
 
         modalWrapper.innerHTML = `
           <shopify-context type="product" handle="${e.detail.handle}">
