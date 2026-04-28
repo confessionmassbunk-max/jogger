@@ -44,11 +44,19 @@ export default function App() {
                   </button>
                 </div>
                 <div class="px-4 pb-8 md:px-10 md:pb-10 flex flex-col md:flex-row gap-6 md:gap-8 -mt-12 md:-mt-16">
-                  <div class="w-full md:w-1/2 overflow-hidden pt-4 md:pt-0">
-                     <div id="product-gallery-container" class="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full cursor-grab active:cursor-grabbing" style="scrollbar-width: none; -ms-overflow-style: none;">
+                  <div class="w-full md:w-1/2 overflow-hidden pt-4 md:pt-0 relative group">
+                     <div id="product-gallery-container" class="flex overflow-x-auto snap-x snap-mandatory gap-4 w-full" style="scrollbar-width: none; -ms-overflow-style: none;">
                        ${imagesHtml}
                      </div>
-                     ${e.detail.images && e.detail.images.length > 1 ? `<div class="text-center text-xs text-white/50 mt-4 uppercase tracking-widest hidden md:block">← Drag for more →</div><div class="text-center text-xs text-white/50 mt-4 uppercase tracking-widest md:hidden">← Swipe for more →</div>` : ''}
+                     ${e.detail.images && e.detail.images.length > 1 ? `
+                       <button onclick="const c=document.getElementById('product-gallery-container'); c.scrollBy({left: -c.clientWidth, behavior: 'smooth'})" class="absolute left-4 top-[45%] -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full w-10 h-10 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md border border-white/10 z-10 cursor-pointer">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                       </button>
+                       <button onclick="const c=document.getElementById('product-gallery-container'); c.scrollBy({left: c.clientWidth, behavior: 'smooth'})" class="absolute right-4 top-[45%] -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full w-10 h-10 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity backdrop-blur-md border border-white/10 z-10 cursor-pointer">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                       </button>
+                       <div class="text-center text-xs text-white/50 mt-4 uppercase tracking-widest md:hidden">← Swipe for more →</div>
+                     ` : ''}
                   </div>
                   <div class="w-full md:w-1/2 flex flex-col justify-center">
                      <h1 class="text-2xl md:text-4xl font-light uppercase tracking-tight mb-2"><shopify-data query="product.title"></shopify-data></h1>
@@ -81,41 +89,6 @@ export default function App() {
             </div>
           </shopify-context>
         `;
-
-        // Add drag-to-scroll functionality for desktop
-        setTimeout(() => {
-          const slider = document.getElementById('product-gallery-container');
-          if (!slider) return;
-
-          let isDown = false;
-          let startX = 0;
-          let scrollLeft = 0;
-
-          slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.classList.add('active');
-            slider.classList.remove('snap-x', 'snap-mandatory');
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
-          });
-
-          const stopDrag = () => {
-            isDown = false;
-            slider.classList.remove('active');
-            slider.classList.add('snap-x', 'snap-mandatory');
-          };
-
-          slider.addEventListener('mouseleave', stopDrag);
-          slider.addEventListener('mouseup', stopDrag);
-
-          slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2; // scroll speed multiplier
-            slider.scrollLeft = scrollLeft - walk;
-          });
-        }, 100);
 
         modal.showModal();
       }
