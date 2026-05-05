@@ -65,8 +65,10 @@ export const Collection: React.FC<{ category?: string }> = ({ category = 'All' }
           const title = edge.node.title.toLowerCase();
           if (title.includes('sweatpants') || title.includes('jogger')) cat = 'Sweatpants';
           if (title.includes('short')) cat = 'Shorts';
-          if (title.includes('tee') || title.includes('t-shirt')) cat = 'Tees';
-          if (title.includes('cap') || title.includes('hat')) cat = 'Headwear';
+          if (title.includes('tee') || title.includes('t-shirt') || title.includes('shirt')) cat = 'Tees';
+          if (title.includes('hoodie') || title.includes('sweater') || title.includes('crewneck')) cat = 'Hoodies';
+          if (title.includes('jacket') || title.includes('coat') || title.includes('windbreaker')) cat = 'Outerwear';
+          if (title.includes('cap') || title.includes('hat') || title.includes('beanie')) cat = 'Headwear';
 
           const variantNode = edge.node.variants?.edges?.[0]?.node;
 

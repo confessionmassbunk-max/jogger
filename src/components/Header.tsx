@@ -19,7 +19,7 @@ export const Header: React.FC<{ category?: string, setCategory?: (c: any) => voi
     setIsScrolled(latest > 50);
   });
 
-  const categories = ['All', 'Sweatpants', 'Shorts'];
+  const categories = ['All', 'Sweatpants', 'Shorts', 'Tees', 'Hoodies', 'Outerwear', 'Headwear'];
 
   return (
     <>

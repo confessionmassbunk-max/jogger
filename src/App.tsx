@@ -12,7 +12,7 @@ import { LegalModals } from './components/LegalModals';
 import { AboutUs } from './components/AboutUs';
 
 export default function App() {
-  const [category, setCategory] = useState<'All' | 'Sweatpants' | 'Shorts'>('All');
+  const [category, setCategory] = useState<string>('All');
 
   useEffect(() => {
     const handleOpenModal = (e: any) => {
