@@ -9,6 +9,7 @@ import { Lookbook } from './components/Lookbook';
 import { Footer } from './components/Footer';
 import { CookieConsent } from './components/CookieConsent';
 import { LegalModals } from './components/LegalModals';
+import { AboutUs } from './components/AboutUs';
 
 export default function App() {
   const [category, setCategory] = useState<'All' | 'Sweatpants' | 'Shorts'>('All');
@@ -131,6 +132,7 @@ export default function App() {
           <AppleScroll />
           <Features />
           <Lookbook />
+          <AboutUs />
         </main>
 
         <Footer />
