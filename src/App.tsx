@@ -10,6 +10,7 @@ import { Footer } from './components/Footer';
 import { CookieConsent } from './components/CookieConsent';
 import { LegalModals } from './components/LegalModals';
 import { AboutUs } from './components/AboutUs';
+import { Journal } from './components/Journal';
 
 export default function App() {
   const [category, setCategory] = useState<string>('All');
@@ -132,6 +133,7 @@ export default function App() {
           <AppleScroll />
           <Features />
           <Lookbook />
+          <Journal />
           <AboutUs />
         </main>
 

@@ -87,6 +87,40 @@ export const Header: React.FC<{ category?: string, setCategory?: (c: any) => voi
                   </button>
                 </motion.div>
               ))}
+              
+              <div className="w-12 h-px bg-white/10 mx-auto my-6"></div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * categories.length }}
+              >
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    document.getElementById('journal')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="text-3xl md:text-5xl font-light tracking-tighter uppercase transition-colors cursor-pointer text-[#F5F5F5]/60 hover:text-[#F5F5F5]"
+                >
+                  Journal
+                </button>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 * categories.length + 0.1 }}
+              >
+                <button
+                  onClick={() => {
+                    setMenuOpen(false);
+                    document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+                  }}
+                  className="text-3xl md:text-5xl font-light tracking-tighter uppercase transition-colors cursor-pointer text-[#F5F5F5]/60 hover:text-[#F5F5F5]"
+                >
+                  About Us
+                </button>
+              </motion.div>
             </div>
           </motion.div>
         )}
